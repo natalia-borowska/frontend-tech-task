@@ -1,28 +1,21 @@
-import React from 'react';
+import axios from 'axios';
+import React, {useState, useEffect} from 'react';
 
 import { Category } from '../../types';
 import Articles from './components/Articles';
 import CategoriesHeader from './components/CategoriesHeader';
+import ErrorMessage from '../../common/ErrorMessage';
+import LoadingMessage from '../../common/LoadingMessage';
 import Sidebar from './components/Sidebar';
 
 import './ArticleList.css';
 
-type State = {
-  categories: Category[];
-};
+const ArticleList: React.FC = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [fetchingError, setFetchingError] = useState(false);
 
-class ArticleList extends React.Component {
-  state: State = {
-    categories: [],
-  };
-
-  componentDidMount() {
-    var xhr = new XMLHttpRequest();
-
-    xhr.open('POST', '/graphql');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-
-    xhr.send(JSON.stringify({
+  useEffect(() => {
+    axios.post('/graphql', {
       query: `{
         categories(ids: "156126", locale: de_DE) {
           name
@@ -52,43 +45,40 @@ class ArticleList extends React.Component {
             }
           }
         }
-      }`,
-    }));
+      }`
+    }).then(response => {
+      setCategories(response.data.data.categories);
+    }).catch(error => {
+      setFetchingError(true);
+    });
+  }, []);
 
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        var response = JSON.parse(xhr.response);
+  return (
+    <div className={'page'}>
+      <header className={'header'}>
+        <strong>home24</strong>
+        <input placeholder={'Search'} />
+      </header>
 
-        this.setState({ categories: response.data.categories });
-      }
-    }
-  }
+      <Sidebar categories={categories} />
 
-  render() {
-    return (
-      <div className={'page'}>
-        <div className={'header'}>
-          <strong>home24</strong>
-          <input placeholder={'Search'} />
-        </div>
-
-        <Sidebar categories={this.state.categories} />
-
-        <div className={'content'}>
-          {this.state.categories.length ?
-            <CategoriesHeader categoryName={this.state.categories[0].name} articleCount={this.state.categories[0].articleCount} />
-          : (
-            'Loading...'
-          )}
-          <Articles categories={this.state.categories} />
-        </div>
-
-        <div className={'footer'}>
-          Alle Preise sind in Euro (€) inkl. gesetzlicher Umsatzsteuer und Versandkosten.
-        </div>
+      <div className={'content'}>
+        {categories.length ?
+          <CategoriesHeader categoryName={categories[0].name} articleCount={categories[0].articleCount} />
+        : 
+          fetchingError ?
+            <ErrorMessage message='Sorry, there was a problem with loading your request, please try again.' />
+            :
+            <LoadingMessage />
+        }
+        <Articles categories={categories} />
       </div>
-    );
-  }
+
+      <footer className={'footer'}>
+        Alle Preise sind in Euro (€) inkl. gesetzlicher Umsatzsteuer und Versandkosten.
+      </footer>
+    </div>
+  );
 }
 
 export default ArticleList;

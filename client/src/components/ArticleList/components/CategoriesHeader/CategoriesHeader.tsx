@@ -5,11 +5,13 @@ interface IPropTypes {
   categoryName: string;
 }
 
-const CategoriesHeader: React.FC<IPropTypes> = (props) => (
-  <h1>
-    {props.categoryName}
-    <small>({props.articleCount})</small>
-  </h1>
+const CategoriesHeader: React.FC<IPropTypes> = ({articleCount, categoryName}) => (
+  <header>
+    <h1>
+      {categoryName}
+      <small>({articleCount})</small>
+    </h1>
+  </header>
 );
 
 export default CategoriesHeader;

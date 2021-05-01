@@ -1,22 +1,25 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import { Article } from '../../../../../types';
+import { formatter } from '../../../../../utils';
 
-var intlNumberFormatValues = ['de-DE', 'currency', 'EUR'];
+interface IPropTypes {
+  article: Article
+}
 
-export var formatter = new Intl.NumberFormat(intlNumberFormatValues[0], {
-  style: intlNumberFormatValues[1],
-  currency: intlNumberFormatValues[2],
-});
+const ArticleCard: React.FC<IPropTypes> = ({article}) => {
+  const computedPrice = () => {
+    return formatter.format(article.prices.regular.value / 100);
+  }
+  const price = useMemo<string>(computedPrice, [article.prices.regular.value]);
 
-const ArticleCard = ({ article }: { article: Article }) => {
   return (
-    <div className={'article'}>
+    <article className={'article'}>
       <img src={article.images[0].path} />
-      <div>{article.name}</div>
-      <div>{formatter.format(article.prices.regular.value / 100)}</div>
-      <section role="button">Add to cart</section>
-    </div>
+      <p>{article.name}</p>
+      <p>{price}</p>
+      <button role="button">Add to cart</button>
+    </article>
   )
 };
 
