@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import './index.css';
-import ProductList from './ProductList';
+import ArticleList from './components/ArticleList';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ProductList />
+    <ArticleList />
   </React.StrictMode>,
   document.getElementById('root')
 )

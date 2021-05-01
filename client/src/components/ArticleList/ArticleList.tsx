@@ -1,28 +1,14 @@
 import React from 'react';
 
-import { Category, Article } from './types';
-import './ProductList.css';
+import { Category } from '../../types';
+import Articles from './components/Articles';
+import CategoriesHeader from './components/CategoriesHeader';
+import Sidebar from './components/Sidebar';
 
-var intlNumberFormatValues = ['de-DE', 'currency', 'EUR'];
-
-export var formatter = new Intl.NumberFormat(intlNumberFormatValues[0], {
-  style: intlNumberFormatValues[1],
-  currency: intlNumberFormatValues[2],
-});
+import './ArticleList.css';
 
 type State = {
   categories: Category[];
-};
-
-export var ArticleCard = ({ article }: { article: Article }) => {
-  return (
-    <div className={'article'}>
-      <img src={article.images[0].path} />
-      <div>{article.name}</div>
-      <div>{formatter.format(article.prices.regular.value / 100)}</div>
-      <section role="button">Add to cart</section>
-    </div>
-  )
 };
 
 class ArticleList extends React.Component {
@@ -79,12 +65,6 @@ class ArticleList extends React.Component {
   }
 
   render() {
-    var articles = this.state.categories.map((category) => {
-      return category.categoryArticles.articles.map((article) => {
-        return <ArticleCard article={article} />;
-      });
-    });
-
     return (
       <div className={'page'}>
         <div className={'header'}>
@@ -92,33 +72,15 @@ class ArticleList extends React.Component {
           <input placeholder={'Search'} />
         </div>
 
-        <div className={'sidebar'}>
-          <h3>Kategorien</h3>
-          {this.state.categories.length ? (
-            <ul>
-              {this.state.categories[0].childrenCategories.map(({ name, urlPath }) => {
-                return (
-                  <li>
-                    <a href={`/${urlPath}`}>{name}</a>
-                  </li>
-                );
-              })}
-            </ul>
-          ) : (
-            'Loading...'
-          )}
-        </div>
+        <Sidebar categories={this.state.categories} />
 
         <div className={'content'}>
-          {this.state.categories.length ? (
-            <h1>
-              {this.state.categories[0].name}
-              <small> ({this.state.categories[0].articleCount})</small>
-            </h1>
-          ) : (
+          {this.state.categories.length ?
+            <CategoriesHeader categoryName={this.state.categories[0].name} articleCount={this.state.categories[0].articleCount} />
+          : (
             'Loading...'
           )}
-          <div className={'articles'}>{articles}</div>
+          <Articles categories={this.state.categories} />
         </div>
 
         <div className={'footer'}>
@@ -129,8 +91,4 @@ class ArticleList extends React.Component {
   }
 }
 
-var PLP = () => {
-  return <ArticleList />;
-};
-
-export default PLP;
+export default ArticleList;
