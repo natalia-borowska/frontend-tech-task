@@ -6,4 +6,5 @@ import Articles from './Articles';
 
 If there is more than one child component, I like to put them all in one folder "components" to make the folder structure more clear and concise.
 
+I used "IType" naming convention (so just adding I before the type/interface name) to avoid possible name clashes with variables created with @emotion/styled
 

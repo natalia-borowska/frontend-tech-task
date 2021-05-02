@@ -1,33 +1,33 @@
-export type Category = {
+export type ICategory = {
   name: string
-  categoryArticles: CategoryArticle
+  categoryArticles: ICategoryArticle
   articleCount: number
-  childrenCategories: ChildCategory[]
+  childrenCategories: IChildCategory[]
 }
 
-export type Article = {
+export type IArticle = {
   name:  string
   variantName: string
-  prices: Prices
-  images: Image[]
+  prices: IPrices
+  images: IImage[]
 }
 
-export type ChildCategory = {
+export type IChildCategory = {
   name: string
   urlPath: string
 }
 
-export type Prices = {
+export type IPrices = {
   currency: string
   regular: {
     value: number
   }
 }
 
-export type Image = {
+export type IImage = {
   path: string
 }
 
-export type CategoryArticle = {
-  articles: Article[]
+export type ICategoryArticle = {
+  articles: IArticle[]
 }

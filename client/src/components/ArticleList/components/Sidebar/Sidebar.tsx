@@ -1,33 +1,63 @@
 import React from 'react';
-import {v4 as uuidv4 } from 'uuid';
+import styled from '@emotion/styled';
+import { color, ColorProps, grid, GridProps, space, SpaceProps } from 'styled-system';
+import { v4 as uuidv4 } from 'uuid';
 
-import { Category } from '../../../../types';
+import { ICategory } from '../../../../types';
 import LoadingMessage from '../../../../common/LoadingMessage';
 
+type AsideProps = ColorProps & GridProps;
+
+const Aside = styled.aside<AsideProps>`
+  ${color}
+  ${grid}
+`;
+
+const Ul = styled.ul<SpaceProps>`
+  ${space}
+  list-style-type: none;
+`;
+
+const Li = styled.li<SpaceProps>`
+  ${space}
+`;
+
+const A = styled.a<ColorProps>`
+  text-decoration: none;
+  ${color}
+  &:active, &:focus, &:visited {
+    color: black;
+  }
+`;
+
 interface IPropTypes {
-  categories: Category[];
+  categories: ICategory[];
 }
 
 const Sidebar: React.FC<IPropTypes> = ({categories}) => (
-  <aside className={'sidebar'}>
+  <Aside bg="lavender" gridArea="sidebar">
     <h3>Kategorien</h3>
     {categories.length ? (
       <nav>
-        <ul>
+        <Ul m={0} p={0}>
           {categories[0].childrenCategories.map(({name, urlPath}) => {
             return (
-              <li key={uuidv4()}>
-                <a href={`/${urlPath}`}>{name}</a>
-              </li>
+              <Li
+                key={uuidv4()}
+                m="0 0 0 8px"
+                p="8px 0"
+              >
+                <A color="black" href={`/${urlPath}`}>{name}</A>
+              </Li>
             );
           })}
-        </ul>
+        </Ul>
       </nav>
     )
     :
     <LoadingMessage />
   }
-  </aside>
+  </Aside>
 );
 
 export default Sidebar;
