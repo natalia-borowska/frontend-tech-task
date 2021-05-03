@@ -3,8 +3,12 @@ import ReactDOM from 'react-dom';
 import { Global, css } from '@emotion/react';
 import { ThemeProvider } from 'styled-components';
 
-import ArticleList from './components/ArticleList';
+import AppWrapper from './containers/AppWrapper';
 import theme from './utils/theme';
+
+const NotFound: React.FC = () => (
+  <span>Not found</span>
+)
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,7 +22,7 @@ ReactDOM.render(
           -moz-osx-font-smoothing: grayscale;
         }
       `} />
-      <ArticleList />
+      <AppWrapper />
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

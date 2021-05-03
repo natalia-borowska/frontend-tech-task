@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { color, ColorProps, flexbox, FlexboxProps, grid, GridProps, space, SpaceProps } from 'styled-system';
+import { grid, GridProps, space, SpaceProps } from 'styled-system';
 
 import { ICategory } from '../../types';
 import Articles from './components/Articles';
@@ -10,40 +10,16 @@ import ErrorMessage from '../../common/ErrorMessage';
 import LoadingMessage from '../../common/LoadingMessage';
 import Sidebar from './components/Sidebar';
 
-type FooterProps = ColorProps & GridProps;
-type HeaderProps = ColorProps & GridProps & FlexboxProps;
-type PageProps = GridProps & SpaceProps;
+type ContentProps = GridProps & SpaceProps;
 
-const Content = styled.div<GridProps>`
-  ${grid}
-`;
-
-const Footer = styled.footer<FooterProps>`
-  text-align: center;
-  ${color}
-  ${grid}
-`;
-
-const Header = styled.header<HeaderProps>`
-  display: flex;
-  ${color}
-  ${grid}
-  ${flexbox}
-`;
-
-const HeaderSearch = styled.input`
-  &:focus {
-    outline: none;
-  }
-`;
-
-const Page = styled.div<PageProps>`
+const ArticleListWrapper = styled.div<GridProps>`
   display: grid;
   ${grid}
+`;
+
+const Content = styled.div<ContentProps>`
+  ${grid}
   ${space}
-  & > * {
-    padding: 10px;
-  }
 `;
 
 const ArticleList: React.FC = () => {
@@ -51,9 +27,9 @@ const ArticleList: React.FC = () => {
   const [fetchingError, setFetchingError] = useState(false);
 
   useEffect(() => {
-    axios.post('/graphql', {
+    axios.post("/graphql", {
       query: `{
-        categories(ids: '156126', locale: de_DE) {
+        categories(ids: "156126", locale: de_DE) {
           name
           articleCount
           childrenCategories {
@@ -90,24 +66,13 @@ const ArticleList: React.FC = () => {
   }, []);
 
   return (
-    <Page
+    <ArticleListWrapper
       gridGap="20px"
-      gridTemplateColumns="160px auto auto"
-      gridTemplateAreas="'header header header' 'sidebar content content' 'footer footer footer'"
-      m="6px"
+      gridTemplateColumns="160px auto"
     >
-      <Header
-        bg="lightblue"
-        gridArea="header"
-        justifyContent="space-between"
-      >
-        <strong>home24</strong>
-        <HeaderSearch placeholder="Search" />
-      </Header>
-
       <Sidebar categories={categories} />
 
-      <Content gridArea="content" gridColumn="span 2">
+      <Content p="10px" gridColumn={['1 / 4', 'auto', 'auto']}>
         {categories.length ?
           <CategoriesHeader categoryName={categories[0].name} articleCount={categories[0].articleCount} />
         : 
@@ -118,11 +83,7 @@ const ArticleList: React.FC = () => {
         }
         <Articles categories={categories} />
       </Content>
-
-      <Footer bg="lightblue" gridArea="footer">
-        Alle Preise sind in Euro (€) inkl. gesetzlicher Umsatzsteuer und Versandkosten.
-      </Footer>
-    </Page>
+    </ArticleListWrapper>
   );
 }
 

@@ -49,7 +49,7 @@ const ArticleCard: React.FC<IPropTypes> = ({article}) => {
       justifyContent="space-between"
       p={10}
     >
-      <img src={article.images[0].path} />
+      <img alt="product" src={article.images[0].path} />
       <p>{article.name}</p>
       <p>{price}</p>
       <Button

@@ -6,11 +6,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { ICategory } from '../../../../types';
 import LoadingMessage from '../../../../common/LoadingMessage';
 
-type AsideProps = ColorProps & GridProps;
+type AsideProps = ColorProps & GridProps & SpaceProps;
 
 const Aside = styled.aside<AsideProps>`
   ${color}
   ${grid}
+  ${space}
 `;
 
 const Ul = styled.ul<SpaceProps>`
@@ -35,7 +36,11 @@ interface IPropTypes {
 }
 
 const Sidebar: React.FC<IPropTypes> = ({categories}) => (
-  <Aside bg="lavender" gridArea="sidebar">
+  <Aside
+    bg="lavender"
+    p="10px"
+    gridColumn={['1 / 4', 1, 1]}
+  >
     <h3>Kategorien</h3>
     {categories.length ? (
       <nav>
