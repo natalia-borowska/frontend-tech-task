@@ -12,8 +12,8 @@ const Small = styled.small<SpaceProps>`
 `;
 
 const CategoriesHeader: React.FC<IPropTypes> = ({articleCount, categoryName}) => (
-  <header>
-    <h1>
+  <header data-test="categoriesHeaderComponent">
+    <h1 data-test="categoriesHeader">
       {categoryName}
       <Small ml="5px">({articleCount})</Small>
     </h1>

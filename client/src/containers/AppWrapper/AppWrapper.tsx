@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
-import { color, ColorProps, flexbox, FlexboxProps, grid, GridProps, space, SpaceProps } from 'styled-system';
+import { Route, Switch } from 'react-router-dom';
+import { color, ColorProps, grid, GridProps, space, SpaceProps } from 'styled-system';
 
+import AppHeader from '../../components/AppHeader';
 import ArticleList from '../../components/ArticleList';
 import GenericErrorBoundary from '../../common/GenericErrorBoundary';
 import PageNotFound from '../../components/PageNotFound';
 
 type FooterProps = ColorProps & GridProps & SpaceProps;
-type HeaderProps = ColorProps & GridProps & FlexboxProps & SpaceProps;
 type PageProps = GridProps & SpaceProps;
 
 const Footer = styled.footer<FooterProps>`
@@ -16,28 +16,6 @@ const Footer = styled.footer<FooterProps>`
   ${color}
   ${grid}
   ${space}
-`;
-
-const Header = styled.header<HeaderProps>`
-  display: flex;
-  ${color}
-  ${grid}
-  ${flexbox}
-  ${space}
-`;
-
-const HeaderSearch = styled.input`
-  &:focus {
-    outline: none;
-  }
-`;
-
-const LinkStyled = styled(Link)<ColorProps>`
-  text-decoration: none;
-  ${color}
-  &:active, &:focus, &:visited {
-    color: black;
-  }
 `;
 
 const Page = styled.div<PageProps>`
@@ -48,23 +26,14 @@ const Page = styled.div<PageProps>`
 
 const AppWrapper: React.FC = () => {
   return (
-    <Router>
+    <div>
       <Page
+        data-test="appWrapperComponent"
         gridGap="20px"
         gridTemplateAreas="'header' 'content' 'footer'"
         m="6px"
       >
-        <Header
-          bg="lightblue"
-          gridArea="header"
-          justifyContent="space-between"
-          p="10px"
-        >
-          <LinkStyled to="/">
-            <strong>home24</strong>
-          </LinkStyled>
-          <HeaderSearch placeholder="Search" />
-        </Header>
+        <AppHeader />
         
         <Switch>
           <Route exact path="/">
@@ -80,13 +49,14 @@ const AppWrapper: React.FC = () => {
 
         <Footer
           bg="lightblue"
+          data-test="appFooter"
           gridArea="footer"
           p="10px"
         >
           Alle Preise sind in Euro (€) inkl. gesetzlicher Umsatzsteuer und Versandkosten.
         </Footer>
       </Page>
-    </ Router>
+    </ div>
   );
 }
 

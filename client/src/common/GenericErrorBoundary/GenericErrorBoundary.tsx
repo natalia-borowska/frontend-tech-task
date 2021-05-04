@@ -21,7 +21,7 @@ class GenericErrorBoundary extends React.Component<IProps, IState> {
     console.log(`Application error: ${errorInfo.componentStack}`)
   }
 
-  getDerivedStateFromError() {
+  static getDerivedStateFromError() {
     return {
       error: true,
     }

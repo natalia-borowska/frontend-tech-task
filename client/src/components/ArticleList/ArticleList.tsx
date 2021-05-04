@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { grid, GridProps, space, SpaceProps } from 'styled-system';
 
-import { ICategory } from '../../types';
+import { ICategory } from '../../utils/types';
 import Articles from './components/Articles';
 import CategoriesHeader from './components/CategoriesHeader';
 import ErrorMessage from '../../common/ErrorMessage';
@@ -70,7 +70,9 @@ const ArticleList: React.FC = () => {
       gridGap="20px"
       gridTemplateColumns="160px auto"
     >
-      <Sidebar categories={categories} />
+      {categories[0] &&
+        <Sidebar categories={categories[0].childrenCategories} />
+      }
 
       <Content p="10px" gridColumn={['1 / 4', 'auto', 'auto']}>
         {categories.length ?

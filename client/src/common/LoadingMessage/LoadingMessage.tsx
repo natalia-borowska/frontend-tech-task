@@ -1,7 +1,7 @@
 import React from 'react';
 
 const LoadingMessage: React.FC = () => (
-  <div>
+  <div data-test="componentLoadingMessage">
     <span>Loading ...</span>
   </div>
 );

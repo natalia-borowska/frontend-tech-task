@@ -5,8 +5,8 @@ interface IPropTypes {
 }
 
 const ErrorMessage: React.FC<IPropTypes> = ({message}) => (
-  <div>
-    <span>{message}</span>
+  <div data-test="errorMessageComponent">
+    <p data-test="componentMessage">{message}</p>
   </div>
 );
 

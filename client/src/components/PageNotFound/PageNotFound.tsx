@@ -10,7 +10,7 @@ const Page = styled.div<SpaceProps>`
 `;
 
 const PageNotFound: React.FC = () => (
-  <Page m="6px" p="10px">
+  <Page data-test="pageNotFoundComponent" m="6px" p="10px">
     <p>Sorry, page not found.</p>
   </Page>
 );

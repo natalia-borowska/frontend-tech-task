@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { color, ColorProps, grid, GridProps, space, SpaceProps } from 'styled-system';
+import { Link } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid';
 
-import { ICategory } from '../../../../types';
+import { IChildCategory } from '../../../../utils/types';
 import LoadingMessage from '../../../../common/LoadingMessage';
 
 type AsideProps = ColorProps & GridProps & SpaceProps;
@@ -23,7 +24,7 @@ const Li = styled.li<SpaceProps>`
   ${space}
 `;
 
-const A = styled.a<ColorProps>`
+const LinkStyled = styled(Link)<ColorProps>`
   text-decoration: none;
   ${color}
   &:active, &:focus, &:visited {
@@ -32,27 +33,35 @@ const A = styled.a<ColorProps>`
 `;
 
 interface IPropTypes {
-  categories: ICategory[];
+  categories: IChildCategory[];
 }
 
 const Sidebar: React.FC<IPropTypes> = ({categories}) => (
   <Aside
     bg="lavender"
-    p="10px"
+    data-test="sidebarComponent"
     gridColumn={['1 / 4', 1, 1]}
+    p="10px"
   >
     <h3>Kategorien</h3>
     {categories.length ? (
       <nav>
         <Ul m={0} p={0}>
-          {categories[0].childrenCategories.map(({name, urlPath}) => {
+          {categories.map(({name, urlPath}) => {
             return (
               <Li
+                data-test="categoryListItem"
                 key={uuidv4()}
                 m="0 0 0 8px"
                 p="8px 0"
               >
-                <A color="black" href={`/${urlPath}`}>{name}</A>
+                <LinkStyled
+                  color="black"
+                  data-test="categoryLink"
+                  to={`/${urlPath}`}
+                >
+                  {name}
+                </LinkStyled>
               </Li>
             );
           })}

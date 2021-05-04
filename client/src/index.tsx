@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 import { Global, css } from '@emotion/react';
 import { ThemeProvider } from 'styled-components';
 
@@ -22,7 +23,9 @@ ReactDOM.render(
           -moz-osx-font-smoothing: grayscale;
         }
       `} />
-      <AppWrapper />
+      <Router>
+        <AppWrapper />
+      </Router>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
