@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 import { color, ColorProps, flexbox, FlexboxProps, grid, GridProps, space, SpaceProps } from 'styled-system';
+import { Link } from 'react-router-dom';
 
 type HeaderProps = ColorProps & GridProps & FlexboxProps & SpaceProps;
 
 const Header = styled.header<HeaderProps>`
   display: flex;
   ${color}
-  ${grid}
   ${flexbox}
+  ${grid}
   ${space}
 `;
 

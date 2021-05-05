@@ -3,10 +3,11 @@ import { shallow, ShallowWrapper } from 'enzyme';
 
 import ArticleCard from './ArticleCard';
 import { findByTestAttribute } from '../../../../../utils/testUtils';
+import { formatter } from '../../../../../utils';
 
 describe('renders ArticleCard', () => {
   let wrapper: ShallowWrapper<typeof ArticleCard>;
-  const price = 100;
+  const value = 100;
   const name = 'categoryArticle1';
 
   beforeEach(() => {
@@ -17,7 +18,7 @@ describe('renders ArticleCard', () => {
         prices: {
           currency: 'EUR',
           regular: {
-            value: price,
+            value,
           },
         },
         images: [
@@ -40,6 +41,13 @@ describe('renders ArticleCard', () => {
   it('contains product name in description', () => {
     const articleCardName = findByTestAttribute(wrapper, 'articleCardName');
 
-    expect(articleCardName.text()).toMatch('categoryArticle1');
+    expect(articleCardName.text()).toMatch(name);
+  });
+
+  it('contains product price in description', () => {
+    const articleCardPrice = findByTestAttribute(wrapper, 'articleCardPrice');
+    const computedPrice = formatter.format(value / 100);
+
+    expect(articleCardPrice.text()).toMatch(computedPrice);
   });
 });

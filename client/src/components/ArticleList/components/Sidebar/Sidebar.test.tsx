@@ -6,22 +6,48 @@ import { Router } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { findByTestAttribute } from '../../../../utils/testUtils';
 
+const props = {
+  categories: [
+    {
+      name: 'testCategory1',
+      categoryArticles: {
+        articles: [
+          {
+            name: 'categoryArticle1',
+            variantName: 'categoryArticle1Variant',
+            prices: {
+              currency: 'EUR',
+              regular: {
+                value: 100,
+              },
+            },
+            images: [
+              {
+                path: 'testPath',
+              },
+            ],
+          },
+        ],
+      },
+      articleCount: 1,
+      childrenCategories: [
+        {
+          name: "testChildCategory1",
+          urlPath: "kategorie/testChildCategory1/",
+        },
+        {
+          name: "testChildCategory2",
+          urlPath: "kategorie/testChildCategory2/",
+        }
+      ]
+    }
+  ]
+};
+
 describe('renders Sidebar', () => {
   let wrapper: ShallowWrapper<typeof Sidebar>;
 
   beforeEach(() => {
-    const props = {
-      categories: [
-        {
-          name: 'category1',
-          urlPath: 'category1Url',
-        },
-        {
-          name: 'category2',
-          urlPath: 'category2Url',
-        },
-      ]
-    }
     wrapper = shallow(<Sidebar {...props} />);
   });
 
@@ -42,15 +68,6 @@ it('clicking on one of the categories will redirect to a category route defined 
   const history = createMemoryHistory();
   history.push = jest.fn();
 
-  const props = {
-    categories: [
-      {
-        name: 'category1',
-        urlPath: 'category1Url',
-      },
-    ]
-  }
-
   const wrapper = mount(
     <Router history={history}>
       <Sidebar {...props} />
@@ -60,7 +77,7 @@ it('clicking on one of the categories will redirect to a category route defined 
   const categoryLink = findByTestAttribute(wrapper, 'categoryLink').at(0);
   categoryLink.simulate('click', { button: 0 });
 
-  expect(history.push).toHaveBeenCalledWith('/category1Url');
+  expect(history.push).toHaveBeenCalledWith('/kategorie/testChildCategory1/');
 
   wrapper.unmount();
 });

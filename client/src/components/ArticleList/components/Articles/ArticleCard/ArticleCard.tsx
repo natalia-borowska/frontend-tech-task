@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { border, BorderProps, color, ColorProps, flexbox, FlexboxProps, space, SpaceProps, typography, TypographyProps } from 'styled-system';
 
-import { IArticle } from '../../../../../utils/types';
 import { formatter } from '../../../../../utils';
+import { IArticle } from '../../../../../utils/types';
 
 type ArticleProps = BorderProps & FlexboxProps & SpaceProps;
 type ButtonProps = BorderProps & ColorProps & SpaceProps & TypographyProps;
@@ -52,7 +52,7 @@ const ArticleCard: React.FC<IPropTypes> = ({article}) => {
     >
       <img alt="product" src={article.images[0].path} />
       <p data-test="articleCardName">{article.name}</p>
-      <p>{price}</p>
+      <p data-test="articleCardPrice">{price}</p>
       <Button
         bg="lightgoldenrodyellow"
         border={1}

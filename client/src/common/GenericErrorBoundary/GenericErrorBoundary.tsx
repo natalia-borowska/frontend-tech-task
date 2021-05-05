@@ -21,7 +21,7 @@ class GenericErrorBoundary extends React.Component<IProps, IState> {
     console.log(`Application error: ${errorInfo.componentStack}`)
   }
 
-  static getDerivedStateFromError() {
+  static getDerivedStateFromError(error: Error) {
     return {
       error: true,
     }
@@ -30,7 +30,7 @@ class GenericErrorBoundary extends React.Component<IProps, IState> {
   render() {
     if (this.state.error) {
       return (
-      <div>
+      <div data-test="genericErrorBoundaryComponent">
         <p>Sorry, something went wrong. Please reload the page</p>
       </div>);
     }

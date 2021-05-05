@@ -4,8 +4,8 @@ import { color, ColorProps, grid, GridProps, space, SpaceProps } from 'styled-sy
 import { Link } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid';
 
-import { IChildCategory } from '../../../../utils/types';
 import LoadingMessage from '../../../../common/LoadingMessage';
+import { ICategory } from '../../../../utils/types';
 
 type AsideProps = ColorProps & GridProps & SpaceProps;
 
@@ -33,7 +33,7 @@ const LinkStyled = styled(Link)<ColorProps>`
 `;
 
 interface IPropTypes {
-  categories: IChildCategory[];
+  categories?: ICategory[];
 }
 
 const Sidebar: React.FC<IPropTypes> = ({categories}) => (
@@ -44,10 +44,10 @@ const Sidebar: React.FC<IPropTypes> = ({categories}) => (
     p="10px"
   >
     <h3>Kategorien</h3>
-    {categories.length ? (
+    {categories && categories[0] && categories[0].childrenCategories ? (
       <nav>
         <Ul m={0} p={0}>
-          {categories.map(({name, urlPath}) => {
+          {categories[0].childrenCategories.map(({name, urlPath}) => {
             return (
               <Li
                 data-test="categoryListItem"

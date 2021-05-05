@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { grid, GridProps, space, SpaceProps } from 'styled-system';
 
-import { ICategory } from '../../utils/types';
 import Articles from './components/Articles';
 import CategoriesHeader from './components/CategoriesHeader';
 import ErrorMessage from '../../common/ErrorMessage';
 import LoadingMessage from '../../common/LoadingMessage';
 import Sidebar from './components/Sidebar';
+import { ICategory } from '../../utils/types';
 
 type ContentProps = GridProps & SpaceProps;
 
@@ -67,24 +67,27 @@ const ArticleList: React.FC = () => {
 
   return (
     <ArticleListWrapper
+      data-test="articleListComponent"
       gridGap="20px"
       gridTemplateColumns="160px auto"
     >
-      {categories[0] &&
-        <Sidebar categories={categories[0].childrenCategories} />
-      }
+      <Sidebar categories={categories} />
 
-      <Content p="10px" gridColumn={['1 / 4', 'auto', 'auto']}>
-        {categories.length ?
-          <CategoriesHeader categoryName={categories[0].name} articleCount={categories[0].articleCount} />
-        : 
-          fetchingError ?
-            <ErrorMessage message="Sorry, there was a problem with loading your request, please try again." />
-            :
+      {fetchingError ?
+        <ErrorMessage message="Sorry, there was a problem with loading your request, please try again." />
+        :
+        <Content p="10px" gridColumn={['1 / 4', 'auto', 'auto']}>
+          {categories.length ?
+            <>
+              <CategoriesHeader categoryName={categories[0].name} articleCount={categories[0].articleCount} />
+              <Articles categories={categories} />
+            </>
+          : 
             <LoadingMessage />
-        }
-        <Articles categories={categories} />
-      </Content>
+          }
+        </Content>
+      }
+      
     </ArticleListWrapper>
   );
 }
